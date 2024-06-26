@@ -1,0 +1,124 @@
+<div class="d-flex">
+  <div class="col-4 bg-white rounded m-2 p-3">
+    <h4 class="text-success">Filters</h4>
+    <div class="my-2">
+      <ng-select
+        [items]="films"
+        bindLabel="title"
+        bindValue="url"
+        name="movie"
+        [(ngModel)]="filter.films"
+        placeholder="Movie Name"
+        (change)="onChangeFilter()"
+      >
+      </ng-select>
+    </div>
+    <div class="my-2">
+      <ng-select
+        [items]="species"
+        bindLabel="name"
+        bindValue="url"
+        name="species"
+        [(ngModel)]="filter.species"
+        placeholder="Species"
+        (change)="onChangeFilter()"
+      >
+      </ng-select>
+    </div>
+    <div class="my-2">
+      <ng-select
+        [items]="vehicles"
+        bindLabel="name"
+        bindValue="url"
+        name="vehicles"
+        [(ngModel)]="filter.vehicles"
+        placeholder="Vehicles"
+        (change)="onChangeFilter()"
+      >
+      </ng-select>
+    </div>
+    <div class="my-2">
+      <ng-select
+        [items]="starships"
+        bindLabel="name"
+        bindValue="url"
+        name="starships"
+        [(ngModel)]="filter.starships"
+        placeholder="Starships"
+        (change)="onChangeFilter()"
+      >
+      </ng-select>
+    </div>
+    <div class="my-2">
+      <span class="text-success">Birth Year</span>
+      <ng-select
+        [items]="uniqueBirthYears"
+        [multiple]="true"
+        bindLabel="name"
+        bindValue="name"
+        [selectableGroup]="true"
+        [closeOnSelect]="false"
+        [(ngModel)]="filter.birth"
+        placeholder="Birth Year"
+        (change)="onChangeFilter()"
+      >
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-item$="item$"
+          let-index="index"
+        >
+          <input
+            id="item-{{ index }}"
+            type="checkbox"
+            [ngModel]="item$.selected"
+          />
+          {{ item.name }}
+        </ng-template>
+      </ng-select>
+    </div>
+    <div class="my-2 d-flex">
+      <button class="btn btn-danger ms-auto" *ngIf="filter.films || filter.species || filter.vehicles || filter.starships || filter.birth?.length > 0" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  </div>
+  <div class="col bg-white rounded m-2 p-3">
+    <h4 class="text-success">Search Results</h4>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Sr</th>
+          <th scope="col">Character Name</th>
+          <th scope="col">Species</th>
+          <th scope="col">Birth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let char of filteredCharacters
+              | slice : (page - 1) * pageSize : page * pageSize;
+            let i = index
+          "
+        >
+          <th scope="row">{{ (page - 1) * pageSize + i + 1 }}</th>
+          <td><a class="text-success" [routerLink]="['/detail', getCharacterId(char.url)]">{{ char.name }}</a></td>
+          <th>{{ getSpeciesName(char.species) }}</th>
+          <th>{{ char.birth_year }}</th>
+        </tr>
+        <tr *ngIf="!(filteredCharacters.length > 0)">
+          <th class="text-center" scope="row" colspan="4">No Data Found </th>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination *ngIf="filteredCharacters.length > 0"
+      class="pagination justify-content-end"
+      [collectionSize]="filteredCharacters.length"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [boundaryLinks]="true"
+      aria-label="Default pagination"
+    ></ngb-pagination>
+  </div>
+</div>

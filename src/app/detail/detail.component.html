@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <button class="btn btn-success d-flex ms-auto mb-3" (click)="goBack()">Back</button>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ profile.name }}</h5>
+          <p class="card-text">
+            <strong>Born:</strong> {{ profile.birth_year }}<br>
+            <strong>Gender:</strong> {{ profile.gender }}<br>
+            <strong>Height:</strong> {{ profile.height }} cm<br>
+            <strong>Weight:</strong> {{ profile.mass }} kg<br>
+            <strong>Hair color:</strong> {{ profile.hair_color }}<br>
+            <strong>Eye color:</strong> {{ profile.eye_color }}<br>
+            <strong>Skin color:</strong> {{ profile.skin_color }}<br>
+            <strong>Homeworld:</strong> Tatooine<br>
+            <strong>Species:</strong> Human<br>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card mb-3">
+        <div class="card-header">Films</div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let film of profile.films" class="list-group-item">{{ film }}</li>
+          <li *appNoData="profile.films.length === 0" class="list-group-item">No Data Available</li>
+        </ul>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header">Vehicles</div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let vehicle of profile.vehicles" class="list-group-item">{{ vehicle }}</li>
+          <li *appNoData="profile.vehicles.length === 0" class="list-group-item">No Data Available</li>
+        </ul>
+      </div>
+      <div class="card mb-3">
+        <div class="card-header">Starships</div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let starship of profile.starships" class="list-group-item">{{ starship }}</li>
+          <li *appNoData="profile.starships.length === 0" class="list-group-item">No Data Available</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
